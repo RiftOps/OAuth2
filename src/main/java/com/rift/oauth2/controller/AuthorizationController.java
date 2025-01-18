@@ -1,6 +1,7 @@
 package com.rift.oauth2.controller;
 
 import com.rift.oauth2.model.AuthorizationRequest;
+import com.rift.oauth2.service.AuthorizationService;
 import com.rift.oauth2.validator.AuthorizationValidator;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -20,9 +21,11 @@ public class AuthorizationController {
     private static final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
 
     private final AuthorizationValidator authorizationValidator;
+    private final AuthorizationService authorizationService;
 
-    public AuthorizationController(AuthorizationValidator authorizationValidator) {
+    public AuthorizationController(AuthorizationValidator authorizationValidator, AuthorizationService authorizationService) {
         this.authorizationValidator = authorizationValidator;
+        this.authorizationService = authorizationService;
     }
 
     @GetMapping("/authorize")
@@ -42,8 +45,8 @@ public class AuthorizationController {
         String authorizationCode = UUID.randomUUID().toString();
         logger.info("Generated authorization code: {}", authorizationCode);
 
-        // TODO: Persist the authorization code with metadata (e.g., clientId, redirectUri, scope, expiry time)
-        saveAuthorizationCode(authorizationCode, request);
+        // Persist the authorization code with metadata
+        authorizationService.saveAuthorizationCode(authorizationCode, request);
 
         // Build the redirect URI with query parameters
         StringBuilder redirectUri = new StringBuilder(request.getRedirectUri())
@@ -60,14 +63,5 @@ public class AuthorizationController {
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create(redirectUri.toString()))
                 .build();
-    }
-
-    /**
-     * Persists the authorization code and metadata.
-     */
-    private void saveAuthorizationCode(String authorizationCode, AuthorizationRequest request) {
-        // Mock storage for now
-        logger.debug("Saving authorization code: {} for client_id: {}, redirectUri: {}, scope: {}, state: {}",
-                authorizationCode, request.getClientId(), request.getRedirectUri(), request.getScope(), request.getState());
     }
 }
