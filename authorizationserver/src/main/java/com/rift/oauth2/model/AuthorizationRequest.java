@@ -1,7 +1,6 @@
 package com.rift.oauth2.model;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -11,21 +10,15 @@ public class AuthorizationRequest {
     private String responseType;
 
     @NotBlank(message = "clientId is required")
-    @JsonProperty("clientId")
     private String clientId;
 
     @NotBlank(message = "redirectUri is required")
-    @JsonProperty("redirectUri")
     @Pattern(
             regexp = "https?://.*",
             message = "redirect_uri must be a valid URL starting with http:// or https://"
     )
     private String redirectUri;
-
-    @JsonProperty("scope")
     private String scope;
-
-    @JsonProperty("state")
     private String state;
 
     public String getResponseType() {
