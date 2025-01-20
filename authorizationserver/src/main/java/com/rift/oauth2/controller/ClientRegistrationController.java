@@ -25,9 +25,7 @@ public class ClientRegistrationController {
     public ResponseEntity<ClientRegistrationResponse> register(@Valid @RequestBody ClientRegistrationRequest
                                                                            clientRegistrationRequest) {
         logger.info("Received client registration request: {}", clientRegistrationRequest);
-
-        ClientRegistrationResponse response = ClientRegistrationResponse.builder().build();
-
+        ClientRegistrationResponse response = clientRegistrationService.registerClient(clientRegistrationRequest);
         return ResponseEntity.status(201).body(response);
     }
 
