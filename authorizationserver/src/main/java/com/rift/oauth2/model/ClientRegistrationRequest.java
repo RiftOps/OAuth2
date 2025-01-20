@@ -23,10 +23,8 @@ public class ClientRegistrationRequest {
     @Size(max = 1024, message = "Scope field must not exceed 1024 characters.")
     private String scope;
 
-    // Default constructor for deserialization
     public ClientRegistrationRequest() {}
 
-    // Builder-based private constructor
     private ClientRegistrationRequest(Builder builder) {
         this.redirectUris = builder.redirectUris;
         this.grantTypes = builder.grantTypes;
@@ -34,7 +32,6 @@ public class ClientRegistrationRequest {
         this.scope = builder.scope;
     }
 
-    // Getters
     public List<String> getRedirectUris() {
         return redirectUris;
     }
@@ -51,7 +48,6 @@ public class ClientRegistrationRequest {
         return scope;
     }
 
-    // Setters for JSON deserialization
     public void setRedirectUris(List<String> redirectUris) {
         this.redirectUris = redirectUris;
     }
@@ -68,12 +64,10 @@ public class ClientRegistrationRequest {
         this.scope = scope;
     }
 
-    // Static method to create a builder
     public static Builder builder() {
         return new Builder();
     }
 
-    // Builder Class
     public static class Builder {
         private List<String> redirectUris;
         private List<String> grantTypes;

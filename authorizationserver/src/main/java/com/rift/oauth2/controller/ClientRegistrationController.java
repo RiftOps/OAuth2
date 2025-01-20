@@ -22,7 +22,8 @@ public class ClientRegistrationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ClientRegistrationResponse> register(@Valid @RequestBody ClientRegistrationRequest clientRegistrationRequest) {
+    public ResponseEntity<ClientRegistrationResponse> register(@Valid @RequestBody ClientRegistrationRequest
+                                                                           clientRegistrationRequest) {
         logger.info("Received client registration request: {}", clientRegistrationRequest);
 
         ClientRegistrationResponse response = ClientRegistrationResponse.builder().build();
