@@ -9,7 +9,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>authorizationserver</module>
-        <module>clientregistrationserver</module>
     </modules>
 
     <parent>
