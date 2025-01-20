@@ -9,6 +9,10 @@ import java.util.List;
 
 public class ClientRegistrationRequest {
 
+    @NotEmpty(message = "Base domain cannot be empty.")
+    private @Pattern(regexp = "^https:\\/\\/([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(:[0-9]{1,5})?(\\/.*)?$",
+            message = "Base domain is not valid.") String baseDomain;
+
     @NotEmpty(message = "Redirect URIs cannot be empty.")
     private List<
             @Pattern(regexp = "^https://.*", message = "Redirect URIs must start with https://")
@@ -26,10 +30,15 @@ public class ClientRegistrationRequest {
     public ClientRegistrationRequest() {}
 
     private ClientRegistrationRequest(Builder builder) {
+        this.baseDomain = builder.baseDomain;
         this.redirectUris = builder.redirectUris;
         this.grantTypes = builder.grantTypes;
         this.tokenEndpointAuthMethod = builder.tokenEndpointAuthMethod;
         this.scope = builder.scope;
+    }
+
+    public String getBaseDomain() {
+        return baseDomain;
     }
 
     public List<String> getRedirectUris() {
@@ -46,6 +55,10 @@ public class ClientRegistrationRequest {
 
     public String getScope() {
         return scope;
+    }
+
+    public void setBaseDomain(String baseDomain) {
+        this.baseDomain = baseDomain;
     }
 
     public void setRedirectUris(List<String> redirectUris) {
@@ -68,12 +81,18 @@ public class ClientRegistrationRequest {
         return new Builder();
     }
 
+
     public static class Builder {
+        private String baseDomain;
         private List<String> redirectUris;
         private List<String> grantTypes;
         private TokenEndpointAuthMethod tokenEndpointAuthMethod;
         private String scope;
 
+        public Builder baseDomain(String baseDomain) {
+            this.baseDomain = baseDomain;
+            return this;
+        }
         public Builder redirectUris(List<String> redirectUris) {
             this.redirectUris = redirectUris;
             return this;
