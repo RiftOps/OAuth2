@@ -25,10 +25,10 @@ public enum TokenEndpointAuthMethod {
     @JsonCreator
     public static TokenEndpointAuthMethod fromValue(String value) {
         for (TokenEndpointAuthMethod method : TokenEndpointAuthMethod.values()) {
-            if (method.value.equalsIgnoreCase(value)) {
+            if (method.name().equalsIgnoreCase(value)) {
                 return method;
             }
         }
-        throw new IllegalArgumentException("Invalid token endpoint auth method: " + value);
+        throw new IllegalArgumentException("Unsupported token endpoint authentication method: " + value);
     }
 }

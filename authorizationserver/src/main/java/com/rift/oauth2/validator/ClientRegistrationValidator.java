@@ -1,6 +1,7 @@
 package com.rift.oauth2.validator;
 
 import com.rift.oauth2.model.ClientRegistrationRequest;
+import com.rift.oauth2.model.GrantType;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -19,8 +20,38 @@ public class ClientRegistrationValidator {
             throw new IllegalArgumentException("Base domain cannot be null or empty");
         }
 
+        validateRedirectUris(redirectUris, baseDomain);
+        validateGrantTypes(request.getGrantTypes());
+
+        if (request.getTokenEndpointAuthMethod() == null) {
+            throw new IllegalArgumentException("Unsupported token endpoint authentication method");
+        }
+    }
+
+
+    private void validateGrantTypes(List<String> grantTypes) {
+        if (grantTypes == null || grantTypes.isEmpty()) {
+            throw new IllegalArgumentException("Grant types cannot be null or empty");
+        }
+
+        for (String grantType : grantTypes) {
+            if (!GrantType.isValid(grantType)) {
+                throw new IllegalArgumentException("Unsupported grant type: " + grantType);
+            }
+        }
+    }
+
+    private void validateRedirectUris(List<String> redirectUris, String baseDomain) {
+        if (redirectUris == null || redirectUris.isEmpty()) {
+            throw new IllegalArgumentException("Redirect URIs cannot be null or empty");
+        }
+
+        if (redirectUris.size() != redirectUris.stream().distinct().count()) {
+            throw new IllegalArgumentException("Redirect URIs must be unique");
+        }
+
         for (String redirectUri : redirectUris) {
-            validateRedirectUri(redirectUri, baseDomain);
+           validateRedirectUri(redirectUri, baseDomain);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.rift.oauth2.model;
 
+import com.rift.oauth2.constants.ValidationConstants;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,24 +10,26 @@ import java.util.List;
 
 public class ClientRegistrationRequest {
 
-    @NotEmpty(message = "Base domain cannot be empty.")
+    @NotEmpty(message = ValidationConstants.BASE_DOMAIN_EMPTY)
     private @Pattern(
-            regexp = "^([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(:[0-9]{1,5})?$",
-            message = "Base domain is not valid."
+        regexp = ValidationConstants.BASE_DOMAIN_PATTERN,
+        message = ValidationConstants.BASE_DOMAIN_INVALID
     ) String baseDomain;
 
-    @NotEmpty(message = "Redirect URIs cannot be empty.")
+    @NotEmpty(message = ValidationConstants.REDIRECT_URIS_EMPTY)
     private List<
-            @Pattern(regexp = "^https://.*", message = "Redirect URIs must start with https://")
-                    String> redirectUris;
+        @Pattern(
+            regexp = ValidationConstants.REDIRECT_URI_PATTERN,
+            message = ValidationConstants.REDIRECT_URI_INVALID
+        ) String> redirectUris;
 
-    @NotEmpty(message = "Grant types cannot be empty.")
+    @NotEmpty(message = ValidationConstants.GRANT_TYPES_EMPTY)
     private List<String> grantTypes;
 
-    @NotNull(message = "Token endpoint authentication method is required.")
+    @NotNull(message = ValidationConstants.TOKEN_AUTH_METHOD_REQUIRED)
     private TokenEndpointAuthMethod tokenEndpointAuthMethod;
 
-    @Size(max = 1024, message = "Scope field must not exceed 1024 characters.")
+    @Size(max = 1024, message = ValidationConstants.SCOPE_MAX_LENGTH)
     private String scope;
 
     public ClientRegistrationRequest() {}
