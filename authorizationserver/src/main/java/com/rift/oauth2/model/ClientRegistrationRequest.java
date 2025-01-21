@@ -10,8 +10,10 @@ import java.util.List;
 public class ClientRegistrationRequest {
 
     @NotEmpty(message = "Base domain cannot be empty.")
-    private @Pattern(regexp = "^https://([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(:[0-9]{1,5})?(/.*)?$",
-            message = "Base domain is not valid.") String baseDomain;
+    private @Pattern(
+            regexp = "^([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(:[0-9]{1,5})?$",
+            message = "Base domain is not valid."
+    ) String baseDomain;
 
     @NotEmpty(message = "Redirect URIs cannot be empty.")
     private List<
